@@ -10,25 +10,44 @@ function upload(response, postData) {
 
 	var file = JSON.parse(postData);
 
-	fileRootName = file.name.split('.').shift();
-	fileExtension = file.name.split('.').pop();
-	filePathBase = config.upload_dir + '/';
+	var fileRootName = file.name.split('.').shift();
+	var fileExtension = file.name.split('.').pop();
+	var filePathBase = config.upload_dir + '/';
 
-	fileRootName = filePathBase + fileRootName;
-	filePath = fileRootName + '.' + fileExtension;
+	var fileRootNameWithBase = filePathBase + fileRootName;
+	var filePath = fileRootNameWithBase + '.' + fileExtension;
 
-	fileID = 2;
+	var fileID = 2;
 
 	while ( fs.existsSync(filePath) ) {
-		filePath = fileRootName + '(' + fileID + ').' + fileExtension;
+		filePath = fileRootNameWithBase + '(' + fileID + ').' + fileExtension;
 		fileID++;
 	}
 
 	file.contents = file.contents.split(',').pop();
-	fs.writeFileSync( filePath, new Buffer( file.contents, "base64" ) );
-
-	response.writeHead(200, {'Content-Type': 'text/plain'});
-	response.end('OK');
+	
+	var fileBuffer = new Buffer( file.contents, "base64" );
+	
+	if ( config.s3_enabled ) {
+		var knox = require('knox');
+		var client = knox.createClient(config.s3);
+		var headers = {
+			'Content-Type': file.type
+		};
+		client.putBuffer(fileBuffer, fileRootName, headers, function(err, res) {
+			if ( ! (res === "undefined") && 200 == res.statusCode ) {
+				console.log('Uploaded to: %s', res.client._httpMessage.url);
+				response.writeHead(200, {'Content-Type': 'text/plain'});
+				response.end('OK');
+			} else {
+				console.log('Upload failed!');
+			}
+		});
+	} else {
+		fs.writeFileSync( filePath, fileBuffer );
+		response.writeHead(200, {'Content-Type': 'text/plain'});
+		response.end('OK');
+	}
 }
 
 function serveStatic(response, pathname, postData) {
