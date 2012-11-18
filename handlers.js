@@ -37,8 +37,8 @@ function upload(response, postData) {
 		client.putBuffer(fileBuffer, fileRootName, headers, function(err, res) {
 			if ( ! (res === "undefined") && 200 == res.statusCode ) {
 				console.log('Uploaded to: %s', res.client._httpMessage.url);
-				response.writeHead(200, {'Content-Type': 'text/plain'});
-				response.end('OK');
+				response.statusCode = 200;
+				response.end();
 			} else {
 				console.log('Upload failed!');
 			}

@@ -41,8 +41,10 @@ $(document).ready(function() {
 
 	function handleReaderLoad(evt) {
 
-		var current_file = all_files[current_file_id];
+		var current_file = {};
 
+		current_file.name = all_files[current_file_id].name;
+		current_file.type = all_files[current_file_id].type;
 		current_file.contents = evt.target.result;
 
 		$.post('/upload', JSON.stringify(current_file), function(data) {
