@@ -7,11 +7,11 @@
 	$(document).ready(function() {
 
 		var all_files = [],
-			current_file_id = 0,
-			locked = false,
-			prev_count_files = 0,
-			waiting = 0,
-			drop, dropzone, handleNextFile, handleReaderLoad, noopHandler;
+		    current_file_id = 0,
+		    locked = false,
+		    prev_count_files = 0,
+		    waiting = 0,
+		    drop, dropzone, handleNextFile, handleReaderLoad, noopHandler;
 
 		noopHandler = function(evt) {
 			evt.stopPropagation();
@@ -23,8 +23,8 @@
 			noopHandler(evt);
 
 			var files = evt.dataTransfer.files,
-				count = files.length,
-				i, j;
+			    count = files.length,
+			    i, j;
 
 			if ( count > 0 ) {
 
@@ -79,7 +79,7 @@
 				$(".file." + current_file_id + " .progress").html("Uploading...");
 
 				var current_file = all_files[current_file_id],
-					reader = new FileReader();
+				    reader = new FileReader();
 
 				reader.onload = handleReaderLoad;
 				reader.readAsDataURL(current_file);

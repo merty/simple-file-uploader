@@ -1,5 +1,5 @@
 var config = require('./config'),
-	fs = require('fs');
+    fs = require('fs');
 
 function home(response, postData) {
 	response.writeHead(200, {'Content-Type': 'text/html'});
@@ -9,13 +9,13 @@ function home(response, postData) {
 function upload(response, postData) {
 
 	var file                 = JSON.parse(postData),
-		fileRootName         = file.name.split('.').shift(),
-		fileExtension        = file.name.split('.').pop(),
-		filePathBase         = config.upload_dir + '/',
-		fileRootNameWithBase = filePathBase + fileRootName,
-		filePath             = fileRootNameWithBase + '.' + fileExtension,
-		fileID               = 2,
-		fileBuffer;
+	    fileRootName         = file.name.split('.').shift(),
+	    fileExtension        = file.name.split('.').pop(),
+	    filePathBase         = config.upload_dir + '/',
+	    fileRootNameWithBase = filePathBase + fileRootName,
+	    filePath             = fileRootNameWithBase + '.' + fileExtension,
+	    fileID               = 2,
+	    fileBuffer;
 
 	while ( fs.existsSync(filePath) ) {
 		filePath = fileRootNameWithBase + '(' + fileID + ').' + fileExtension;
@@ -29,8 +29,8 @@ function upload(response, postData) {
 	if ( config.s3_enabled ) {
 
 		var knox = require('knox'),
-			client = knox.createClient(config.s3),
-			headers = {'Content-Type': file.type};
+		    client = knox.createClient(config.s3),
+		    headers = {'Content-Type': file.type};
 
 		client.putBuffer(fileBuffer, fileRootName, headers, function(err, res) {
 
@@ -55,7 +55,7 @@ function upload(response, postData) {
 function serveStatic(response, pathname, postData) {
 
 	var extension = pathname.split('.').pop(),
-		extensionTypes = {
+	    extensionTypes = {
 			'css' : 'text/css',
 			'gif' : 'image/gif',
 			'jpg' : 'image/jpeg',

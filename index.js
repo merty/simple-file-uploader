@@ -1,7 +1,7 @@
 var server = require('./server'),
-	handlers = require('./handlers'),
-	router = require('./router'),
-	handle = {};
+    handlers = require('./handlers'),
+    router = require('./router'),
+    handle = {};
 
 handle["/"] = handlers.home;
 handle["/home"] = handlers.home;
