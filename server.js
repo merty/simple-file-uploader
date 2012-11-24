@@ -1,12 +1,13 @@
-var config = require('./config');
-var http = require('http');
-var url = require('url');
+var config = require('./config'),
+	http = require('http'),
+	url = require('url');
 
 function start(route, handle) {
 
 	function onRequest(request, response) {
-		var pathname = url.parse(request.url).pathname;
-		var postData = '';
+
+		var pathname = url.parse(request.url).pathname,
+			postData = '';
 
 		request.setEncoding('utf8');
 

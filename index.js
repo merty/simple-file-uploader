@@ -1,8 +1,8 @@
-var server = require('./server');
-var handlers = require('./handlers');
-var router = require('./router');
+var server = require('./server'),
+	handlers = require('./handlers'),
+	router = require('./router'),
+	handle = {};
 
-var handle = {}
 handle["/"] = handlers.home;
 handle["/home"] = handlers.home;
 handle["/upload"] = handlers.upload;

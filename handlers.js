@@ -1,5 +1,5 @@
-var config = require('./config');
-var fs = require('fs');
+var config = require('./config'),
+	fs = require('fs');
 
 function home(response, postData) {
 	response.writeHead(200, {'Content-Type': 'text/html'});
@@ -8,16 +8,14 @@ function home(response, postData) {
 
 function upload(response, postData) {
 
-	var file = JSON.parse(postData);
-
-	var fileRootName = file.name.split('.').shift();
-	var fileExtension = file.name.split('.').pop();
-	var filePathBase = config.upload_dir + '/';
-
-	var fileRootNameWithBase = filePathBase + fileRootName;
-	var filePath = fileRootNameWithBase + '.' + fileExtension;
-
-	var fileID = 2;
+	var file                 = JSON.parse(postData),
+		fileRootName         = file.name.split('.').shift(),
+		fileExtension        = file.name.split('.').pop(),
+		filePathBase         = config.upload_dir + '/',
+		fileRootNameWithBase = filePathBase + fileRootName,
+		filePath             = fileRootNameWithBase + '.' + fileExtension,
+		fileID               = 2,
+		fileBuffer;
 
 	while ( fs.existsSync(filePath) ) {
 		filePath = fileRootNameWithBase + '(' + fileID + ').' + fileExtension;
@@ -26,43 +24,47 @@ function upload(response, postData) {
 
 	file.contents = file.contents.split(',').pop();
 	
-	var fileBuffer = new Buffer( file.contents, "base64" );
+	fileBuffer = new Buffer( file.contents, "base64" );
 	
 	if ( config.s3_enabled ) {
-		var knox = require('knox');
-		var client = knox.createClient(config.s3);
-		var headers = {
-			'Content-Type': file.type
-		};
+
+		var knox = require('knox'),
+			client = knox.createClient(config.s3),
+			headers = {'Content-Type': file.type};
+
 		client.putBuffer(fileBuffer, fileRootName, headers, function(err, res) {
-			if ( ! (res === "undefined") && 200 == res.statusCode ) {
+
+			if ( ! (res === "undefined") && 200 === res.statusCode ) {
 				console.log('Uploaded to: %s', res.client._httpMessage.url);
 				response.statusCode = 200;
-				response.end();
 			} else {
 				console.log('Upload failed!');
+				response.statusCode = 500;
 			}
+
+			response.end();
 		});
+
 	} else {
 		fs.writeFileSync( filePath, fileBuffer );
-		response.writeHead(200, {'Content-Type': 'text/plain'});
-		response.end('OK');
+		response.statusCode = 200;
+		response.end();
 	}
 }
 
 function serveStatic(response, pathname, postData) {
 
-	var extension = pathname.split('.').pop();
-	var extensionTypes = {
-		'css' : 'text/css',
-		'gif' : 'image/gif',
-		'jpg' : 'image/jpeg',
-		'jpeg': 'image/jpeg',
-		'js'  : 'application/javascript',
-		'png' : 'image/png'
-	};
+	var extension = pathname.split('.').pop(),
+		extensionTypes = {
+			'css' : 'text/css',
+			'gif' : 'image/gif',
+			'jpg' : 'image/jpeg',
+			'jpeg': 'image/jpeg',
+			'js'  : 'application/javascript',
+			'png' : 'image/png'
+		};
 
-	response.writeHead(200, {'Content-Type': extensionTypes[extension]});
+	response.writeHead( 200, {'Content-Type': extensionTypes[extension]} );
 	response.end( fs.readFileSync('./static' + pathname) );
 }
 
