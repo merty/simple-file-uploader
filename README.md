@@ -1,6 +1,8 @@
 Simple File Uploader
 ===
 
+[![Code Climate](https://codeclimate.com/github/merty/simple-file-uploader/badges/gpa.svg)](https://codeclimate.com/github/merty/simple-file-uploader)
+
 Simple File Uploader is a file uploader written using HTML5 and Node.js. It can upload both to a local directory on the server or to an AWS S3 server.
 
 Clearly, it is not a revolutionary file uploader that will change the way mankind upload their files. Seeing that many people are actually interested in both HTML5 File API and Node.js, decided to write a simple file uploader application as many of the examples out there are not clear enough for beginners. Hope this helps!
