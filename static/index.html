@@ -1,19 +1,17 @@
 <!DOCTYPE html>
 <html>
-	<head>
-		<title>File Uploader</title>
-		<script src="js/jquery-1.8.2.min.js"></script>
-		<script src="js/global.js"></script>
-		<link rel="stylesheet" type="text/css" href="css/style.css">
-	</head>
-	<body>
-		<div id="dropzoneWrap">
-			<div id="dropzone">
-				<span id="dropzoneLabel">Drop the files here...</span>
-			</div>
-		</div>
-		<div id="footer">
-			Created by <a href="http://www.mertyazicioglu.com" title="Mert Yazicioglu">Mert Yazicioglu</a>
-		</div>
-	</body>
+<head>
+  <title>File Uploader</title>
+  <link href="app.css" rel="stylesheet">
+</head>
+<body>
+  <div class="dropzone" id="dropzone">
+    <span>Drop the files here...</span>
+  </div>
+  <input type="file" id="addFile" multiple>
+  <div class="footer">
+    Created by <a href="https://www.mertyazicioglu.com" target="_blank" title="Mert Yazicioglu">Mert Yazicioglu</a>
+  </div>
+  <script src="app.js"></script>
+</body>
 </html>

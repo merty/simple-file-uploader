@@ -1,0 +1,103 @@
+body {
+  font-family: Arial, sans-serif;
+  font-size: 0.9em;
+  line-height: 1.8;
+}
+
+a,
+body {
+  color: #c7c7c7;
+}
+
+a {
+  text-decoration: none;
+}
+
+input[type="file"] {
+  display: none;
+}
+
+.clear {
+  clear: both;
+}
+
+#dropzone {
+	background-color: #f7f7f7;
+	border: 2px dashed #c7c7c7;
+	height: 500px;
+	margin: 20px;
+	overflow: scroll;
+	overflow-x: hidden;
+	text-align: center;
+}
+
+#dropzone span {
+  font-size: 2em;
+	position: relative;
+	top: 45%;
+}
+
+#dropzone.queue {
+  background-color: #fff;
+}
+
+#dropzone.queue span {
+  display: none;
+}
+
+#dropzone .file {
+	background-color: #fafafa;
+  border-bottom: #e7e7e7 1px solid;
+	color: #808080;
+	line-height: 20px;
+	padding: 20px;
+	text-align: left;
+}
+
+#dropzone .file .name {
+	float: left;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+	width: 90%;
+}
+
+#dropzone .file .progress {
+	float: right;
+	width: 10%;
+}
+
+.footer {
+  margin: auto;
+  text-align: center;
+  width: 80%;
+}
+
+@media (max-width: 767px) {
+  html,
+  body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+  }
+  body {
+    font-size: 0.8em;
+  }
+  #dropzone {
+    border: none;
+    height: 100%;
+    margin: 0;
+    width: 100%;
+  }
+  #dropzone .file {
+    padding: 10px;
+  }
+  #dropzone .file .name,
+  #dropzone .file .progress {
+    line-height: 1.8;
+    width: 100%;
+  }
+  .footer {
+    display: none;
+  }
+}

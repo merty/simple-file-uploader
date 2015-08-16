@@ -1,11 +1,12 @@
-var server = require('./server'),
-    handlers = require('./handlers'),
-    router = require('./router'),
-    handle = {};
+var handlers = require('./handlers');
+var router = require('./router');
+var server = require('./server');
 
-handle["/"] = handlers.home;
-handle["/home"] = handlers.home;
-handle["/upload"] = handlers.upload;
-handle._static = handlers.serveStatic;
+var routes = {
+  '/': handlers.home,
+  '/home': handlers.home,
+  '/upload': handlers.upload,
+  '_static': handlers.serveStatic
+};
 
-server.start(router.route, handle);
+server.start(router.route, routes);
